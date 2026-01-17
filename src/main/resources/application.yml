@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: backend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/aerobase
+    username: aerobase_user
+    password: aerobase_pass
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+    hibernate:
+      ddl-auto: create-drop
