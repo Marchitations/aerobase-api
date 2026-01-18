@@ -48,6 +48,16 @@ public class AeronaveService {
         return AeronaveMapper.toResponse(updated);
     }
 
+    public List<AeronaveResponseDTO> find(String term) {
+        if (term == null || term.isBlank()) {
+            throw new IllegalArgumentException("O termo de busca nao pode estar vazio");
+        }
+
+        return repository.findByTerm(term).stream()
+                .map(AeronaveMapper::toResponse)
+                .toList();
+    }
+
     public void delete(Long id){
         repository.deleteById(id);
     }

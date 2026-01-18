@@ -19,6 +19,16 @@ public class Aeronave {
     private Instant atualizado = Instant.now();
 
 
+    @PrePersist
+    protected void onCreate() {
+        this.criado = Instant.now();
+        this.atualizado = Instant.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.atualizado = Instant.now();
+    }
 
     public Long getId() {
         return id;
