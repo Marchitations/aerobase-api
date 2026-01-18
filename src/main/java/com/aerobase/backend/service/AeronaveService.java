@@ -1,14 +1,15 @@
 package com.aerobase.backend.service;
 
+import com.aerobase.backend.dto.AeronaveCreateDTO;
+import com.aerobase.backend.dto.AeronaveEditDTO;
 import com.aerobase.backend.dto.AeronaveResponseDTO;
+import com.aerobase.backend.exception.AeronaveNotFoundException;
 import com.aerobase.backend.model.Aeronave;
 import com.aerobase.backend.repository.AeronaveRepository;
 import com.aerobase.backend.util.AeronaveMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -24,14 +25,30 @@ public class AeronaveService {
     }
 
     private Aeronave findAeronave(Long id) {
-        try {
-            return repository.findById(id).get();
-        } catch (Exception exception) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        return repository.findById(id)
+                .orElseThrow(AeronaveNotFoundException::new);
     }
 
     public List<AeronaveResponseDTO> findAll(){
         return AeronaveMapper.toResponse(repository.findAll());
+    }
+
+    public AeronaveResponseDTO create(AeronaveCreateDTO dto){
+        Aeronave aeronave = AeronaveMapper.toEntity(dto);
+        return AeronaveMapper.toResponse(repository.save(aeronave));
+    }
+
+    public AeronaveResponseDTO update(Long id, AeronaveEditDTO dto){
+        Aeronave aeronave = repository.findById(id).
+                orElseThrow(AeronaveNotFoundException::new);
+
+        AeronaveMapper.updateEntity(dto, aeronave);
+
+        Aeronave updated = repository.save(aeronave);
+        return AeronaveMapper.toResponse(updated);
+    }
+
+    public void delete(Long id){
+        repository.deleteById(id);
     }
 }

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class    AeronaveMapper {
 
-    public Aeronave toEntity(AeronaveCreateDTO dto){
+    public static Aeronave toEntity(AeronaveCreateDTO dto){
         Aeronave aeronave = new Aeronave();
         aeronave.setNome(dto.getNome());
         aeronave.setMarca(dto.getMarca());
@@ -20,7 +20,7 @@ public class    AeronaveMapper {
         return aeronave;
     }
 
-    public void updateEntity(AeronaveEditDTO dto, Aeronave aeronave){
+    public static void updateEntity(AeronaveEditDTO dto, Aeronave aeronave){
         aeronave.setNome(dto.getNome());
         aeronave.setMarca(dto.getMarca());
         aeronave.setAno(dto.getAno());
