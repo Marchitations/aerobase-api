@@ -8,6 +8,7 @@ import com.aerobase.backend.model.Aeronave;
 import com.aerobase.backend.repository.AeronaveRepository;
 import com.aerobase.backend.util.AeronaveMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +30,10 @@ public class AeronaveService {
                 .orElseThrow(AeronaveNotFoundException::new);
     }
 
-    public List<AeronaveResponseDTO> findAll(){
-        return AeronaveMapper.toResponse(repository.findAll());
+    public List<AeronaveResponseDTO> findAll() {
+        return AeronaveMapper.toResponse(
+                repository.findAll(Sort.by(Sort.Direction.ASC, "criado"))
+        );
     }
 
     public AeronaveResponseDTO create(AeronaveCreateDTO dto){
