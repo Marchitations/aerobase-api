@@ -1,22 +1,44 @@
 package com.aerobase.backend.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.Instant;
 
 @Entity
 @Table(name = "aeronave")
+@SQLDelete(sql = "UPDATE aeronave SET deletado = now() WHERE id = ?")
+@Where(clause = "deletado IS NULL")
 public class Aeronave {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "nome", nullable = false)
     private String nome;
+
+    @Column(name = "marca", nullable = false)
     private String marca;
+
+    @Column(name = "ano", nullable = false)
     private Integer ano;
+
+    @Column(name = "descricao")
     private String descricao;
-    private Boolean vendido;
-    private Instant criado = Instant.now();
-    private Instant atualizado = Instant.now();
+
+    @Column(name = "vendido", nullable = false)
+    private Boolean vendido = false;
+
+    @Column(name = "criado", nullable = false, updatable = false)
+    private Instant criado;
+
+    @Column(name = "atualizado", nullable = false)
+    private Instant atualizado;
+
+    @Column(name = "deletado")
+    private Instant deletado;
 
 
     @PrePersist
@@ -92,5 +114,13 @@ public class Aeronave {
 
     public void setAtualizado(Instant atualizado) {
         this.atualizado = atualizado;
+    }
+
+    public Instant getDeletado() {
+        return deletado;
+    }
+
+    public void setDeletado(Instant deletado) {
+        this.deletado = deletado;
     }
 }

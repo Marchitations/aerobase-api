@@ -1,19 +1,36 @@
 package com.aerobase.backend.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.Instant;
 
+@Schema(description = "Dados da Aeronave")
 public class AeronaveResponseDTO {
 
+    @Schema(example = "1")
     private Long id;
+
+    @Schema(example = "E195-E2")
     private String nome;
+
+    @Schema(example = "Embraer")
     private String marca;
+
+    @Schema(example = "2022")
     private Integer ano;
+
+    @Schema(example = "Vendido para Imanary Company LTDA.")
     private String descricao;
+
+    @Schema(example = "true")
     private Boolean vendido;
+
+    @Schema(example = "2026-01-22 19:45:08")
     private Instant criado;
+
+    @Schema(example = "2026-01-22 19:54:55")
     private Instant atualizado;
 
     public Long getId() {
